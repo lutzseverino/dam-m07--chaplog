@@ -30,8 +30,9 @@ import cat.lasalle.chaplog.ui.LogsListScreen
 
 enum class ChapLogScreen(val title: String) {
     Start("ChapLog"),
-    Add("Add new"),
-    Edit("Edit"),
+    Create("Add new log"),
+    Read("Inspecting log"),
+    Update("Update log"),
 }
 
 @Composable
