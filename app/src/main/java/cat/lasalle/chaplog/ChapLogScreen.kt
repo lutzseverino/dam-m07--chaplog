@@ -145,6 +145,21 @@ fun ChapLogApp(
                     }
                 )
             }
+
+            composable(route = ChapLogScreen.Update.name) {
+                LogAddScreen(
+                    initialLog = uiState.focusedLog!!,
+                    onAdd = {
+                        viewModel.removeLog(uiState.focusedLog!!)
+                        viewModel.addLog(it)
+                        viewModel.focusLog(it)
+
+                        navController.navigateUp()
+                    },
+                    onCancel = { navController.navigateUp() }
+                )
+
+            }
         }
     }
 }
