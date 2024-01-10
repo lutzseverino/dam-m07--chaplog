@@ -116,16 +116,17 @@ fun LogAddScreen(
                 Text("Cancel")
             }
 
-            Button(onClick = {
-                onAdd(
-                    LogUiState(
-                        title = title.value,
-                        author = author.value,
-                        currentPage = currentPage.intValue,
-                        pages = pages.intValue
+            Button(
+                onClick = {
+                    onAdd(
+                        LogUiState(
+                            title = title.value,
+                            author = author.value,
+                            currentPage = currentPage.intValue,
+                            pages = pages.intValue
                         )
-                )
-            }) {
+                    )
+                }) {
                 Text("Save")
             }
         }
