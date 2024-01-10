@@ -26,15 +26,14 @@ fun validateNumber(number: String): Boolean {
 
 @Composable
 fun LogAddScreen(
+    initialLog: LogUiState,
     onAdd: (LogUiState) -> Unit,
     onCancel: () -> Unit
 ) {
-    val author = rememberSaveable { mutableStateOf("") }
-    val title = rememberSaveable { mutableStateOf("") }
-    val currentPage = rememberSaveable { mutableIntStateOf(0) }
-    val pages = rememberSaveable { mutableIntStateOf(0) }
-
-    // TODO: Fix modifiers and add all fields.
+    val author = rememberSaveable { mutableStateOf(initialLog.author) }
+    val title = rememberSaveable { mutableStateOf(initialLog.title) }
+    val currentPage = rememberSaveable { mutableIntStateOf(initialLog.currentPage) }
+    val pages = rememberSaveable { mutableIntStateOf(initialLog.pages) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
