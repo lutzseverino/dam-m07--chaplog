@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -105,13 +106,14 @@ fun ChapLogApp(
         NavHost(
             navController = navController,
             startDestination = ChapLogScreen.Start.name,
-            modifier = Modifier.padding(padding)
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp)
         ) {
             composable(route = ChapLogScreen.Start.name) {
                 LogsListScreen(
-                    logsUiState = uiState,
+                    viewModel = viewModel,
                     onLogClicked = { navController.navigate(ChapLogScreen.Edit.name) },
-                    onLogLongClicked = { /* TODO */ }
                 )
             }
 
