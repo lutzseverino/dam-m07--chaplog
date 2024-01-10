@@ -25,25 +25,29 @@ import cat.lasalle.chaplog.model.LogsViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LogsListScreen(
-    viewModel: LogsViewModel = LogsViewModel(),
+    logs: List<LogUiState>,
 
     onLogClicked: (LogUiState) -> Unit,
+    onLogDelete: (LogUiState) -> Unit,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val openDeleteDialog = remember { mutableStateOf(false) }
+    val logToDelete = remember { mutableStateOf(LogUiState()) }
 
     Column {
         when {
-            uiState.logs.isEmpty() -> {
+            logs.isEmpty() -> {
                 Text(text = "No logs yet, add one by clicking the button below.")
             }
         }
 
-        uiState.logs.forEach { log ->
+       logs.forEach { log ->
             ListItem(
                 modifier = Modifier.combinedClickable(
                     onClick = { onLogClicked(log) },
-                    onLongClick = { openDeleteDialog.value = true }
+                    onLongClick = {
+                        logToDelete.value = log
+                        openDeleteDialog.value = true
+                    }
                 ),
 
                 headlineContent = { Text(text = log.title) },
@@ -56,20 +60,20 @@ fun LogsListScreen(
                 },
             )
             Divider()
+        }
 
-            when {
-                openDeleteDialog.value -> {
-                    LogDeleteDialog(
-                        log = log,
-                        onConfirmation = {
-                            viewModel.removeLog(log)
-                            openDeleteDialog.value = false
-                        },
-                        onDismissRequest = {
-                            openDeleteDialog.value = false
-                        }
-                    )
-                }
+        when {
+            openDeleteDialog.value -> {
+                LogDeleteDialog(
+                    log = logToDelete.value,
+                    onConfirmation = {
+                        onLogDelete(logToDelete.value)
+                        openDeleteDialog.value = false
+                    },
+                    onDismissRequest = {
+                        openDeleteDialog.value = false
+                    }
+                )
             }
         }
     }
