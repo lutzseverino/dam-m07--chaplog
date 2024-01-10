@@ -33,6 +33,12 @@ fun LogsListScreen(
     val openDeleteDialog = remember { mutableStateOf(false) }
 
     Column {
+        when {
+            uiState.logs.isEmpty() -> {
+                Text(text = "No logs yet, add one by clicking the button below.")
+            }
+        }
+
         uiState.logs.forEach { log ->
             ListItem(
                 modifier = Modifier.combinedClickable(
