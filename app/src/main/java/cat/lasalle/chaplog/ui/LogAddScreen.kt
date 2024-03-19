@@ -119,6 +119,7 @@ fun LogAddScreen(
                 onClick = {
                     onAdd(
                         BookLog(
+                            id = initialLog.id,
                             title = title.value,
                             author = author.value,
                             currentPage = currentPage.intValue,
