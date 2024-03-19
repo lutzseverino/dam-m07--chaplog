@@ -139,8 +139,7 @@ fun ChapLogApp(
                     initialLog = BookLog(),
                     onAdd = { log ->
                         viewModel.viewModelScope.launch {
-                            viewModel.add(log)
-                            viewModel.updateBookLog(log, bookLogRepository)
+                                viewModel.addBookLog(log, bookLogRepository)
                         }
                         navController.navigateUp()
                     },
@@ -162,11 +161,13 @@ fun ChapLogApp(
                 LogAddScreen(
                     initialLog = uiState.focusedLog!!,
                     onAdd = { log ->
+                        val logWithId = log.copy(id = uiState.focusedLog!!.id)
+
                         viewModel.viewModelScope.launch {
                             viewModel.remove(uiState.focusedLog!!)
-                            viewModel.add(log)
-                            viewModel.focus(log)
-                            viewModel.updateBookLog(log, bookLogRepository)
+                            viewModel.add(logWithId)
+                            viewModel.focus(logWithId)
+                            viewModel.updateBookLog(logWithId, bookLogRepository)
                         }
                         navController.navigateUp()
                     },

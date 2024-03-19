@@ -25,10 +25,6 @@ class BookLogListViewModel  : ViewModel() {
         _uiState.update { it.copy(focusedLog = log) }
     }
 
-    fun reset() {
-        _uiState.update { BookLogList() }
-    }
-
     suspend fun updateData(bookLogRepository: BookLogRepository) {
         val bookLogs = bookLogRepository.getBookLogs().map { entity ->
             BookLog(
@@ -52,5 +48,17 @@ class BookLogListViewModel  : ViewModel() {
             pages = updatedBookLog.pages
         )
         _uiState.update { it -> it.copy(logs = it.logs.map { if (it.id == updatedLog.id) updatedLog else it }) }
+    }
+
+    suspend fun addBookLog(log: BookLog, bookLogRepository: BookLogRepository) {
+        val addedBookLog = bookLogRepository.addBookLog(log)
+        val addedLog = BookLog(
+            id = addedBookLog.id,
+            title = addedBookLog.title,
+            author = addedBookLog.author,
+            currentPage = addedBookLog.currentPage,
+            pages = addedBookLog.pages
+        )
+        _uiState.update { it.copy(logs = it.logs + addedLog) }
     }
 }

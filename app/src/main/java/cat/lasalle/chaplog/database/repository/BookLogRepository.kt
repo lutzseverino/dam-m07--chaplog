@@ -21,4 +21,16 @@ class BookLogRepository(private val service: BookLogService, private val db: App
         db.bookLogDao().update(bookLogEntity)
         return bookLogEntity
     }
+
+    suspend fun addBookLog(bookLog: BookLog): BookLogEntity {
+        val addedBookLog = service.addBookLog(bookLog)
+        val bookLogEntity = BookLogEntity(
+            title = addedBookLog.title,
+            author = addedBookLog.author,
+            currentPage = addedBookLog.currentPage,
+            pages = addedBookLog.pages
+        )
+        db.bookLogDao().insert(bookLogEntity)
+        return bookLogEntity
+    }
 }

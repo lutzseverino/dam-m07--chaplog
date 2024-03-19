@@ -13,4 +13,7 @@ interface BookLogService {
 
     @PUT("book_logs/{id}")
     suspend fun updateBookLog(@Path("id") id: Int, @Body bookLog: BookLog): BookLog
+
+    @POST("book_logs")
+    suspend fun addBookLog(@Body bookLog: BookLog): BookLog
 }
