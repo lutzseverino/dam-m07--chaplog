@@ -1,0 +1,11 @@
+{
+  "book_logs": [
+    {
+      "title": "Sample Book",
+      "author": "Sample Author",
+      "currentPage": 1,
+      "pages": 100,
+      "id": 1
+    }
+  ]
+}
