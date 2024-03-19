@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
-class BookLogListViewModel : ViewModel() {
+class BookLogListViewModel  : ViewModel() {
 
     private val _uiState = MutableStateFlow(BookLogList())
     val uiState: StateFlow<BookLogList> = _uiState
@@ -40,5 +40,17 @@ class BookLogListViewModel : ViewModel() {
             )
         }
         _uiState.update { it.copy(logs = bookLogs) }
+    }
+
+    suspend fun updateBookLog(log: BookLog, bookLogRepository: BookLogRepository) {
+        val updatedBookLog = bookLogRepository.updateBookLog(log)
+        val updatedLog = BookLog(
+            id = updatedBookLog.id,
+            title = updatedBookLog.title,
+            author = updatedBookLog.author,
+            currentPage = updatedBookLog.currentPage,
+            pages = updatedBookLog.pages
+        )
+        _uiState.update { it -> it.copy(logs = it.logs.map { if (it.id == updatedLog.id) updatedLog else it }) }
     }
 }

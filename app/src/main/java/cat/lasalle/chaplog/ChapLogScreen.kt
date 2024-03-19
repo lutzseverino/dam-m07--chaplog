@@ -20,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -32,6 +33,7 @@ import cat.lasalle.chaplog.model.BookLogListViewModel
 import cat.lasalle.chaplog.ui.LogAddScreen
 import cat.lasalle.chaplog.ui.LogScreen
 import cat.lasalle.chaplog.ui.LogsListScreen
+import kotlinx.coroutines.launch
 import java.util.logging.Logger
 
 enum class ChapLogScreen(val title: String) {
@@ -135,8 +137,11 @@ fun ChapLogApp(
             composable(route = ChapLogScreen.Create.name) {
                 LogAddScreen(
                     initialLog = BookLog(),
-                    onAdd = {
-                        viewModel.add(it)
+                    onAdd = { log ->
+                        viewModel.viewModelScope.launch {
+                            viewModel.add(log)
+                            viewModel.updateBookLog(log, bookLogRepository)
+                        }
                         navController.navigateUp()
                     },
                     onCancel = { navController.navigateUp() }
@@ -156,11 +161,13 @@ fun ChapLogApp(
             composable(route = ChapLogScreen.Update.name) {
                 LogAddScreen(
                     initialLog = uiState.focusedLog!!,
-                    onAdd = {
-                        viewModel.remove(uiState.focusedLog!!)
-                        viewModel.add(it)
-                        viewModel.focus(it)
-
+                    onAdd = { log ->
+                        viewModel.viewModelScope.launch {
+                            viewModel.remove(uiState.focusedLog!!)
+                            viewModel.add(log)
+                            viewModel.focus(log)
+                            viewModel.updateBookLog(log, bookLogRepository)
+                        }
                         navController.navigateUp()
                     },
                     onCancel = { navController.navigateUp() }

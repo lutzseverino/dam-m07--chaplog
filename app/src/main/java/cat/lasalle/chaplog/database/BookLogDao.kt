@@ -12,4 +12,7 @@ interface BookLogDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(bookLogs: List<BookLogEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(bookLog: BookLogEntity)
 }
