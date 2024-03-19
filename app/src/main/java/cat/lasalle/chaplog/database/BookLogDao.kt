@@ -10,9 +10,12 @@ interface BookLogDao {
     @Query("SELECT * FROM book_logs")
     suspend fun getAll(): List<BookLogEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(bookLogs: List<BookLogEntity>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addAll(bookLogs: List<BookLogEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(bookLog: BookLogEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(bookLog: BookLogEntity)
 }

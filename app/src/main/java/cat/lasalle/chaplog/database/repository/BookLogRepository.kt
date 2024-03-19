@@ -8,11 +8,10 @@ import cat.lasalle.chaplog.database.BookLogEntity
 class BookLogRepository(private val service: BookLogService, private val db: AppDatabase) {
     suspend fun getBookLogs(): List<BookLogEntity> {
         val bookLogs = service.getBookLogs().map {
-            println("BookLogRexpository.getBookLogs: $it")
             BookLogEntity(it.id, it.title, it.author, it.currentPage, it.pages)
         }
 
-        db.bookLogDao().insertAll(bookLogs)
+        db.bookLogDao().addAll(bookLogs)
         return db.bookLogDao().getAll()
     }
 
