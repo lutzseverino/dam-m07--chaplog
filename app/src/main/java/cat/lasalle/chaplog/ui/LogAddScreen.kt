@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import cat.lasalle.chaplog.data.LogUiState
+import cat.lasalle.chaplog.data.BookLog
 
 fun validateNumber(number: String): Boolean {
     return number != "" && number.isDigitsOnly()
@@ -26,8 +26,8 @@ fun validateNumber(number: String): Boolean {
 
 @Composable
 fun LogAddScreen(
-    initialLog: LogUiState,
-    onAdd: (LogUiState) -> Unit,
+    initialLog: BookLog,
+    onAdd: (BookLog) -> Unit,
     onCancel: () -> Unit
 ) {
     val author = rememberSaveable { mutableStateOf(initialLog.author) }
@@ -118,7 +118,7 @@ fun LogAddScreen(
             Button(
                 onClick = {
                     onAdd(
-                        LogUiState(
+                        BookLog(
                             title = title.value,
                             author = author.value,
                             currentPage = currentPage.intValue,

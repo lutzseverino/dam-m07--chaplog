@@ -1,16 +1,16 @@
 package cat.lasalle.chaplog.model
 
 import androidx.lifecycle.ViewModel
-import cat.lasalle.chaplog.data.LogUiState
+import cat.lasalle.chaplog.data.BookLog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class LogViewModel : ViewModel() {
+class BookLogViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LogUiState())
-    val uiState: StateFlow<LogUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(BookLog())
+    val uiState: StateFlow<BookLog> = _uiState.asStateFlow()
 
     fun updateTitle(title: String) {
         _uiState.update { it.copy(title = title) }
@@ -29,6 +29,6 @@ class LogViewModel : ViewModel() {
     }
 
     fun reset() {
-        _uiState.update { LogUiState() }
+        _uiState.update { BookLog() }
     }
 }

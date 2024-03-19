@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cat.lasalle.chaplog.data.LogUiState
+import cat.lasalle.chaplog.data.BookLog
 
 @Composable
 fun LogScreen(
-    log: LogUiState,
-    onEdit: (LogUiState) -> Unit
+    log: BookLog,
+    onEdit: (BookLog) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),

@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -25,8 +26,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import cat.lasalle.chaplog.data.LogUiState
-import cat.lasalle.chaplog.model.LogsViewModel
+import cat.lasalle.chaplog.data.BookLog
+import cat.lasalle.chaplog.database.repository.BookLogRepository
+import cat.lasalle.chaplog.model.BookLogListViewModel
 import cat.lasalle.chaplog.ui.LogAddScreen
 import cat.lasalle.chaplog.ui.LogScreen
 import cat.lasalle.chaplog.ui.LogsListScreen
@@ -70,8 +72,9 @@ fun ChapLogAppBar(
 
 @Composable
 fun ChapLogApp(
-    viewModel: LogsViewModel = viewModel(),
-    navController: NavHostController = rememberNavController()
+    viewModel: BookLogListViewModel = viewModel(),
+    navController: NavHostController = rememberNavController(),
+    bookLogRepository: BookLogRepository
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen =
@@ -116,20 +119,20 @@ fun ChapLogApp(
                 LogsListScreen(
                     logs = uiState.logs,
                     onLogClicked = {
-                        viewModel.focusLog(it)
+                        viewModel.focus(it)
                         navController.navigate(ChapLogScreen.Read.name)
                     },
                     onLogDelete = {
-                        viewModel.removeLog(it)
+                        viewModel.remove(it)
                     }
                 )
             }
 
             composable(route = ChapLogScreen.Create.name) {
                 LogAddScreen(
-                    initialLog = LogUiState(),
+                    initialLog = BookLog(),
                     onAdd = {
-                        viewModel.addLog(it)
+                        viewModel.add(it)
                         navController.navigateUp()
                     },
                     onCancel = { navController.navigateUp() }
@@ -140,7 +143,7 @@ fun ChapLogApp(
                 LogScreen(
                     log = uiState.focusedLog!!,
                     onEdit = {
-                        viewModel.focusLog(it)
+                        viewModel.focus(it)
                         navController.navigate(ChapLogScreen.Update.name)
                     }
                 )
@@ -150,9 +153,9 @@ fun ChapLogApp(
                 LogAddScreen(
                     initialLog = uiState.focusedLog!!,
                     onAdd = {
-                        viewModel.removeLog(uiState.focusedLog!!)
-                        viewModel.addLog(it)
-                        viewModel.focusLog(it)
+                        viewModel.remove(uiState.focusedLog!!)
+                        viewModel.add(it)
+                        viewModel.focus(it)
 
                         navController.navigateUp()
                     },

@@ -4,7 +4,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
@@ -13,25 +12,21 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import cat.lasalle.chaplog.data.LogUiState
-import cat.lasalle.chaplog.data.LogsUiState
-import cat.lasalle.chaplog.model.LogsViewModel
+import cat.lasalle.chaplog.data.BookLog
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LogsListScreen(
-    logs: List<LogUiState>,
+    logs: List<BookLog>,
 
-    onLogClicked: (LogUiState) -> Unit,
-    onLogDelete: (LogUiState) -> Unit,
+    onLogClicked: (BookLog) -> Unit,
+    onLogDelete: (BookLog) -> Unit,
 ) {
     val openDeleteDialog = remember { mutableStateOf(false) }
-    val logToDelete = remember { mutableStateOf(LogUiState()) }
+    val logToDelete = remember { mutableStateOf(BookLog()) }
 
     Column {
         when {
@@ -81,7 +76,7 @@ fun LogsListScreen(
 
 @Composable
 fun LogDeleteDialog(
-    log: LogUiState,
+    log: BookLog,
     onConfirmation: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
