@@ -80,6 +80,10 @@ fun ChapLogApp(
     val currentScreen =
         ChapLogScreen.valueOf(backStackEntry?.destination?.route ?: ChapLogScreen.Start.name)
 
+    LaunchedEffect(key1 = Unit) {
+        viewModel.updateData(bookLogRepository)
+    }
+
     Scaffold(
         topBar = {
             ChapLogAppBar(
